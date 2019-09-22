@@ -1,5 +1,6 @@
 from scipy import signal
 import matplotlib.pyplot as plt
+import numpy as np
 
 fs = 10e3
 N = 1e5
