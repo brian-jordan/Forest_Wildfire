@@ -34,14 +34,6 @@ spectrogram(y)
 title('Forest\_Fire\_1.mp3');
 
 figure(2)
-[y,Fs] = audioread('forrest_sounds/Forest-ambience.mp3');
-y = y(:);
-subplot(1,1,1);
-spectrogram(y)
-title('Forest-ambience.mp3');
-
-%% Frequency Domain Audio Signal Analyzing Testing
-figure(3)
 
 %forestfire.mp3 FFT
 [y,Fs] = audioread('fire_sounds/forestfire.mp3');
@@ -50,54 +42,19 @@ y = fft(y);
 nfft = length(y);
 x = Fs./2.*[-1:2./nfft:1-2./nfft];
 subplot(2,2,1);
-plot(x,abs(y));
+plot(x,ay);
 title('forestfire.mp3');
-xlabel('Frequency (Hz)');
-ylabel('Magnitude');
-
-%brush_fire.mp3 FFT
-[y,Fs] = audioread('fire_sounds/brush_fire.mp3');
-y = y(:);
-y = fft(y);
-nfft = length(y);
-x = Fs./2.*[-1:2./nfft:1-2./nfft];
-subplot(2,2,2);
-plot(x,abs(y));
-title('brush\_fire.mp3');
-xlabel('Frequency (Hz)');
-ylabel('Magnitude');
-
-%Fire_1.mp3 FFT
-[y,Fs] = audioread('fire_sounds/Fire_1.mp3');
-y = y(:);
-y = fft(y);
-nfft = length(y);
-x = Fs./2.*[-1:2./nfft:1-2./nfft];
-subplot(2,2,3);
-plot(x,abs(y));
-title('Fire\_1.mp3');
-xlabel('Frequency (Hz)');
-ylabel('Magnitude');
 
 %Forest_Fire_1.mp3 FFT
 [y,Fs] = audioread('fire_sounds/Forest_Fire_1.mp3');
 y = y(:);
-y = fft(y);nfft = length(y);
-x = Fs./2.*[-1:2./nfft:1-2./nfft];
+y = fft(y);
+x = 0:length(y)-1;
 subplot(2,2,4);
-plot(x,abs(y));
+plot(x,y);
 title('Forest\_Fire\_1.mp3');
-xlabel('Frequency (Hz)');
-ylabel('Magnitude');
 
-figure(4)
-
-%Forest-ambience.mp3 FFT
+figure(3)
 [y,Fs] = audioread('forrest_sounds/Forest-ambience.mp3');
 y = y(:);
-y = fft(y);nfft = length(y);
-x = Fs./2.*[-1:2./nfft:1-2./nfft];
-plot(x,abs(y));
-title('Forest-ambience.mp3');
-xlabel('Frequency (Hz)');
-ylabel('Magnitude');
+spectrogram(y)
