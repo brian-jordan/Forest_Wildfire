@@ -6,12 +6,12 @@ forestDir = 'forest_sounds/*.mp3';
 forestFolder = 'forest_sounds/';
 
 %% Spectrograms, Frequency Domain and Time Domains of All Fire Audio Files
-files = dir(fireDir)
-N = length(files)
+files = dir(fireDir);
+N = length(files);
 count = 1;
 for i = 1:N
-    name = files(i).name
-    fileDir = [fireFolder name]
+    name = files(i).name;
+    fileDir = [fireFolder name];
     [y,Fs] = audioread(fileDir);
     y = y(:);
     figure(count);
