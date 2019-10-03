@@ -5,6 +5,8 @@ fireFolder = 'fire_sounds/';
 forestDir = 'forest_sounds/*.mp3';
 forestFolder = 'forest_sounds/';
 
+csvDir = 'CSV_files/';
+
 %% Spectrograms, Frequency Domain and Time Domains of All Fire Audio Files
 files = dir(fireDir);
 N = length(files);
@@ -16,7 +18,7 @@ for i = 1:N
     y = y(:);
     figure(count);
     count = count + 1;
-    eval(['Fire' num2str(i) '= y']);
+   %  eval(['Fire' num2str(i) '= y']);
     %Spectrogram
     subplot(1,3,1);
     spectrogram(y)
@@ -31,6 +33,13 @@ for i = 1:N
     title(name,'Interpreter', 'none');
     xlabel('Frequency (Hz)');
     ylabel('Magnitude');
+    
+    fileNameLength = length(name);
+    fileName = name(1 : (fileNameLength - 4));
+    
+    % Write Frequency Domain Values to CSV file
+    csv_file = [csvDir fileName '_frequency.csv'];
+    csvwrite(csv_file,[x' abs(yFFT)]);
     
     %Time Domain
     x = 0:length(y)-1;
