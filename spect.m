@@ -16,7 +16,7 @@ for i = 1:N
     y = y(:);
     figure(count);
     count = count + 1;
-    
+    eval(['Fire' num2str(i) '= y']);
     %Spectrogram
     subplot(1,3,1);
     spectrogram(y)
@@ -75,3 +75,4 @@ for i = 1:N
     ylabel('Magnitude');
     title(name,'Interpreter', 'none');
 end
+
