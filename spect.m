@@ -38,8 +38,8 @@ for i = 1:N
     fileName = name(1 : (fileNameLength - 4));
     
     % Write Frequency Domain Values to CSV file
-    csv_file = [csvDir fileName '_frequency.csv'];
-    csvwrite(csv_file,[x' abs(yFFT)]);
+    % csv_file = [csvDir fileName '_frequency.csv'];
+    % csvwrite(csv_file,[x' abs(yFFT)]);
     
     %Time Domain
     x = 0:length(y)-1;
