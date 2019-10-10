@@ -18,28 +18,30 @@ for i = 1:N
     y = y(:);
     figure(count);
     count = count + 1;
-   %  eval(['Fire' num2str(i) '= y']);
+    eval(['Fire' num2str(i) '= y']);
     %Spectrogram
     subplot(1,3,1);
     spectrogram(y)
     title(name,'Interpreter', 'none');
     
     %Frequency Domain
-    yFFT = fft(y);
+    yFFT = fftshift(fft(y));
     nfft = length(yFFT);
-    x = Fs./2.*[-1:2./nfft:1-2./nfft];
+    dF = Fs/nfft;
+    %x = Fs./2.*[-1:2./nfft:1-2./nfft];
+    x = -Fs/2:dF:Fs/2-dF;
     subplot(1,3,2);
     plot(x,abs(yFFT));
     title(name,'Interpreter', 'none');
     xlabel('Frequency (Hz)');
     ylabel('Magnitude');
     
-    fileNameLength = length(name);
-    fileName = name(1 : (fileNameLength - 4));
+    %fileNameLength = length(name);
+    %fileName = name(1 : (fileNameLength - 4));
     
     % Write Frequency Domain Values to CSV file
-    csv_file = [csvDir fileName '_frequency.csv'];
-    csvwrite(csv_file,[x' abs(yFFT)]);
+    %csv_file = [csvDir fileName '_frequency.csv'];
+    %csvwrite(csv_file,[x' abs(yFFT)]);
     
     %Time Domain
     x = 0:length(y)-1;
@@ -67,9 +69,11 @@ for i = 1:N
     title(name,'Interpreter', 'none');
     
     %Frequency Domain
-    yFFT = fft(y);
+    yFFT = fftshift(fft(y));
     nfft = length(yFFT);
-    x = Fs./2.*[-1:2./nfft:1-2./nfft];
+    dF = Fs/nfft;
+    %x = Fs./2.*[-1:2./nfft:1-2./nfft];
+    x = -Fs/2:dF:Fs/2-dF;
     subplot(1,3,2);
     plot(x,abs(yFFT));
     title(name,'Interpreter', 'none');
