@@ -25,6 +25,8 @@ for i = 1:N
     title(name,'Interpreter', 'none');
     
     %Frequency Domain
+    % Question - Do we only care about the positive values in this given
+    % that they are duplicated on the negative side
     yFFT = fftshift(fft(y));
     nfft = length(yFFT);
     dF = Fs/nfft;
