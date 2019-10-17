@@ -9,6 +9,7 @@ name = audioFile;
 fileNameLength = length(name);
 csvDir = 'CSV_files/';
 
+lowerHzLimit = 20;
 upperHzLimit = 200;
 
 %Number of full 10 second clips that can be acquired from the signal
@@ -25,7 +26,7 @@ for i = 0:numClips-1
    nfft = length(FFT);
    dF = Fs/nfft;
    x = -Fs/2:dF:Fs/2-dF;
-   zeroIndex = find(x>0, 1);
+   zeroIndex = find(x>lowerHzLimit, 1);
    upperIndex = find(x>upperHzLimit, 1);
    FFT = FFT(zeroIndex:upperIndex);
    x = x(zeroIndex:upperIndex);
