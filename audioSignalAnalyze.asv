@@ -1,0 +1,41 @@
+function ret = audioSignalAnalyze(audioFile)
+%audioSignalAnalyze takes in an audio input, splits it into ten second
+%intervals and saves the Fourier transforms as .CSV files
+%Takes in an audio file (mp3 or m4a) as an input
+
+[y,Fs] = audioread(audioFile);
+y = y(:);
+name = audioFile.name;
+fileNameLength = length(name);
+fileName = name
+
+upperHzLimit = 1000;
+
+%Number of full 10 second clips that can be acquired from the signal
+numClips = floor(length(y)/(Fs*10))
+
+for i = 0:numClips-1
+    %Get 10 second clip
+   firstIndex = i*Fs*10+1;
+   lastIndex = firstIndex+Fs*10;
+   temp = y(firstIndex:lastIndex);
+   
+   %Fourier Transform of Clip
+   FFT = fftshift((fft(temp));
+   nfft = length(FFT);
+   dF = Fs/nfft;
+   x = -Fs/2:dF:Fs/2-dF;
+   zeroIndex = find(x>0, 1);
+   upperIndex = find(x>upperHzLimit, 1);
+   FFT = FFT(zeroIndex:upperIndex);
+   x = x(zeroIndex:upperIndex);
+   figure(i);
+   plot(x,abs(FFT));
+   xlabel('Frequency (Hz)');
+   ylabel('Magnitude');
+   
+end
+
+ret = 1;
+
+end
