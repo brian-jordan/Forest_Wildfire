@@ -19,7 +19,7 @@ for i = 0:numClips-1
     %Get 10 second clip
    firstIndex = i*Fs*10+1;
    lastIndex = firstIndex+Fs*10-1;
-   temp = y(firstIndex:lastIndex-1);
+   temp = y(firstIndex:lastIndex);
    
    %Fourier Transform of Clip
    FFT = fftshift((fft(temp)));
@@ -28,8 +28,8 @@ for i = 0:numClips-1
    x = -Fs/2:dF:Fs/2-dF;
    zeroIndex = find(x>lowerHzLimit, 1);
    upperIndex = find(x>upperHzLimit, 1);
-   FFT = FFT(zeroIndex:upperIndex);
-   x = x(zeroIndex:upperIndex);
+   FFT = FFT(zeroIndex:upperIndex-1);
+   x = x(zeroIndex:upperIndex-1);
 %    figure(i+1);
    
    absFFT = abs(FFT);
