@@ -34,6 +34,9 @@ for fileIter = 1 : length(files)
         end
     end
     
-    condensedValueMatrix = [condensedValueMatrix windowAverage];
+    condensedValueMatrix = [condensedValueMatrix windowAverage'];
     
 end
+
+csvFile = 'fire_magnitudes.csv';
+csvwrite(csvFile,condensedValueMatrix);
