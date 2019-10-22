@@ -1,16 +1,17 @@
 %% Data Compression
 % Get file to compress
+csvDirFiles = 'CSV_files/*.csv';
 csvDir = 'CSV_files/';
-files = dir(csvDir);
+files = dir(csvDirFiles);
 
 maxFrequency = 200;
 groupingSize = 5;
 
-frequencyRange = (0: groupingSize : maxFrequency)';
+frequencyRange = (groupingSize: groupingSize : maxFrequency)';
 condensedValueMatrix = frequencyRange;
 
 for fileIter = 1 : length(files)
-    FrequencyData = csvread(csvTestFile);
+    FrequencyData = csvread([csvDir files(fileIter).name]);
     
     frequency = FrequencyData(:,1);
     magnitude = FrequencyData(:,2);
@@ -23,7 +24,7 @@ for fileIter = 1 : length(files)
     count = 0;
 
     for i = 1 : length(frequency)
-        if (frequency(i) >= frequencyRange(currentFrequencyIndex) && ((currentFrequencyIndex + 1) > length(frequency) || frequency(i) < frequencyRange(currentFrequencyIndex + 1)))
+        if (frequency(i) <= frequencyRange(currentFrequencyIndex))
             sum = sum + magnitude(i);
             count = count + 1;
         else
@@ -34,9 +35,11 @@ for fileIter = 1 : length(files)
         end
     end
     
+    windowAverage = [windowAverage (sum / count)];
+    
     condensedValueMatrix = [condensedValueMatrix windowAverage'];
     
 end
 
 csvFile = 'fire_magnitudes.csv';
-csvwrite(csvFile,condensedValueMatrix);
+csvwrite(csvFile, condensedValueMatrix);

@@ -3,24 +3,27 @@
 csvDir = 'CSV_files/';
 files = dir(csvDir);
 
+maxFrequency = 200;
+groupingSize = 5;
+
+frequencyRange = (groupingSize: groupingSize : maxFrequency)';
+condensedValueMatrix = frequencyRange;
+
 for fileIter = 1 : length(files)
     FrequencyData = csvread(csvTestFile);
     
     frequency = FrequencyData(:,1);
     magnitude = FrequencyData(:,2);
     
-    maxFrequency = 200;
-    groupingSize = 5;
     currentFrequencyIndex = 1;
     
-    frequencyRange = (0: groupingSize : maxFrequency)';
     windowAverage = [];
     
     sum = 0;
     count = 0;
 
     for i = 1 : length(frequency)
-        if (frequency(i) >= frequencyRange(currentFrequencyIndex) && ((currentFrequencyIndex + 1) > length(frequency) || frequency(i) < frequencyRange(currentFrequencyIndex + 1)));
+        if (frequency(i) <= frequencyRange(currentFrequencyIndex) && ((currentFrequencyIndex + 1) > length(frequency) || frequency(i) <= frequencyRange(currentFrequencyIndex + 1)))
             sum = sum + magnitude(i);
             count = count + 1;
         else
@@ -31,4 +34,13 @@ for fileIter = 1 : length(files)
         end
     end
     
+    size(condensedValueMatrix)
+    
+    size(windowAverage)
+    
+    condensedValueMatrix = [condensedValueMatrix windowAverage'];
+    
 end
+
+csvFile = 'fire_magnitudes.csv';
+csvwrite(csvFile, condensedValueMatrix);
