@@ -10,7 +10,7 @@ fileNameLength = length(name);
 csvDir = 'CSV_files/';
 
 lowerHzLimit = 0;
-upperHzLimit = Fs/2;
+upperHzLimit = 200;
 
 %Number of full 10 second clips that can be acquired from the signal
 numClips = floor(length(y)/(Fs*10))
@@ -23,27 +23,26 @@ for i = 0:numClips-1
    
    %Fourier Transform of Clip
    FFT = fftshift((fft(temp)));
-   %FFT = fft(temp);
    nfft = length(FFT);
    dF = Fs/nfft;
    x = -Fs/2:dF:Fs/2-dF;
-   %x = 0:dF:Fs-dF;
    zeroIndex = find(x>lowerHzLimit, 1);
    upperIndex = find(x>upperHzLimit, 1);
    FFT = FFT(zeroIndex:upperIndex);
    x = x(zeroIndex:upperIndex);
-   figure(i+1);
+%    figure(i+1);
    
    absFFT = abs(FFT);
    maxF = max(absFFT);
    normFFT = absFFT./maxF;
-   plot(x,normFFT);
-   xlabel('Frequency (Hz)');
-   ylabel('Magnitude');
    
-%    fileName = name(1:(fileNameLength - 4));
-%    csv_file = [csvDir fileName num2str(i+1) '_frequency.csv'];
-%    csvwrite(csv_file, [x' normFFT]);
+%    plot(x,normFFT);
+%    xlabel('Frequency (Hz)');
+%    ylabel('Magnitude');
+   
+   fileName = name(1:(fileNameLength - 4));
+   csv_file = [csvDir fileName num2str(i+1) '_frequency.csv'];
+   csvwrite(csv_file, [x' normFFT]);
     
 end
 
