@@ -11,12 +11,8 @@ csvFireFile = 'fire_magnitudes.csv';
 fireFrequencies = csvread(csvFireFile);
 
 frequencies = fireFrequencies(:,1);
-magnitudes = fireFrequencies(:,2 : end);
+magnitueds = fireFrequencies(:,2 : end);
 
-fireMagnitudeAverages = [];
-[rows,cols] = size(magnitudes);
+averages = []
 
-for iter = 1 : rows
-    fireMagnitudeAverages = [fireMagnitudeAverages; mean(magnitudes(iter, :))];
-end
     
