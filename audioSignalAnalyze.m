@@ -7,7 +7,7 @@ function ret = audioSignalAnalyze(audioFile)
 y = y(:);
 name = audioFile;
 fileNameLength = length(name);
-csvDir = 'CSV_files/';
+csvDir = 'CSV_Forest_Files/';
 
 lowerHzLimit = 0;
 upperHzLimit = 200;
@@ -31,7 +31,7 @@ for i = 0:numClips-1
    FFT = FFT(zeroIndex:upperIndex-1);
    x = x(zeroIndex:upperIndex-1);
 %    figure(i+1);
-   
+    
    absFFT = abs(FFT);
    maxF = max(absFFT);
    normFFT = absFFT./maxF;
