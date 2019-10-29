@@ -1,8 +1,10 @@
-%% Data Compression
+%% Ambient Noise Data Compression
 % Get file to compress
-csvDirFiles = 'CSV_files/*.csv';
-csvDir = 'CSV_files/';
-files = dir(csvDirFiles);
+csvDirFile = 'CSV_Forest_Files/*.csv';
+csvDir = 'CSV_Forest_Files/';
+csvWriteFileName = 'ambient_magnitudes.csv';
+   
+files = dir(csvDirFile);
 
 maxFrequency = 200;
 groupingSize = 5;
@@ -38,8 +40,5 @@ for fileIter = 1 : length(files)
     windowAverage = [windowAverage (sum / count)];
     
     condensedValueMatrix = [condensedValueMatrix windowAverage'];
-    
 end
-
-csvFile = 'fire_magnitudes.csv';
-csvwrite(csvFile, condensedValueMatrix);
+csvwrite(csvWriteFileName, condensedValueMatrix);
