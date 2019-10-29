@@ -21,27 +21,8 @@ for iter = 1 : rows
     fireMagnitudeAverages = [fireMagnitudeAverages; mean(magnitudes(iter, :))];
 end
 
-fireResultMatrix = [frequencies, fireMagnitudeAverages];
+resultMatrix = [frequencies, fireMagnitudeAverages];
 
-csvwrite(csvFireTrainedFile, fireResultMatrix);
+csvwrite(csvFireTrainedFile, resultMatrix);
 
-% Get ambient frequency data
-csvAmbientFile = 'ambient_magnitudes.csv';
-csvAmbientTrainedFile = 'ambient_trained.csv';
-
-fireFrequencies = csvread(csvAmbientFile);
-
-frequencies = fireFrequencies(:,1);
-magnitudes = fireFrequencies(:,2 : end);
-
-ambientMagnitudeAverages = [];
-[rows,cols] = size(magnitudes);
-
-for iter = 1 : rows
-    ambientMagnitudeAverages = [ambientMagnitudeAverages; mean(magnitudes(iter, :))];
-end
-
-ambientResultMatrix = [frequencies, ambientMagnitudeAverages];
-
-csvwrite(csvAmbientTrainedFile, ambientResultMatrix);
     
