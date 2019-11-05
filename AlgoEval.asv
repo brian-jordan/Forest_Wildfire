@@ -1,0 +1,12 @@
+function AlgoEval(dsPca, knnClassifier)
+    truth = dsPca.getTargets;
+    yOutKfolds = knnClassifier.kfolds(dsPca, 2);
+    
+    figure(4)
+    plot
+
+    [nVotes, guess] = max(yOutKfolds.getObservations,[], 2);
+    
+    figure(3)
+    prtScoreConfusionMatrix(guess,truth,dsPca.uniqueClasses,dsPca.getClassNames);
+    title('Classification Confusion Matrix');
