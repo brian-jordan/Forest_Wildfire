@@ -1,9 +1,83 @@
-function AlgoEval(dsPca, knnClassifier)
-    truth = dsPca.getTargets;
-    yOutKfolds = knnClassifier.kfolds(dsPca, 10);
+clear all;
+close all;
+clc;
 
-    [nVotes, guess] = max(yOutKfolds.getObservations,[], 2);
+%% Load Files and Make Dataset
+filenames = {'fire_magnitudes.csv', 'ambient_magnitudes.csv'};
+targetvalues = [1 0];
+X = [];
+Y = [];
+
+%Concatanate all of the files together
+for i=1:length(filenames)
+    [feat, label] = LoadPRTData(filenames{i}, targetvalues(i));
     
-    figure(4)
-    prtScoreConfusionMatrix(guess,truth,dsPca.uniqueClasses,dsPca.getClassNames);
-    title('Classification Confusion Matrix');
+    X = cat(1, X, feat);
+    Y = cat(1, Y, label);
+    
+end
+
+dataSet = prtDataSetClass(X, Y);
+
+%% Run Principal Component Analysis to Reduce Dimensions
+myPca = prtPreProcPca;
+myPca.nComponents = 3;
+
+% Train the PCA to learn the principal components of the data:
+myPca = myPca.train(dataSet);
+dsPca = myPca.run(dataSet);   %Run the PCA analysis on the data
+
+figure(1)
+clf
+plot(dsPca);
+
+%% Plot the Variance of PCA
+pcaVar = prtPreProcPca;
+pcaVar.nComponents = dataSet.nFeatures;
+pcaVar = pcaVar.train(dataSet);
+
+figure(2)
+clf
+stem(pcaVar.totalPercentVarianceCumulative,'linewidth',3);
+xlabel('#Components');
+ylabel('Percent Variance Explained');
+title('PCA Percent Variance Explained')
+
+prompt = 'How many times to run? \n';
+in = input(prompt);
+
+Names = {prtClassKnn, prtClassLibSvm, prtClassTreeBaggingCap, prtClassGlrt, prtClassFld,...
+    prtClassDlrt, prtClassAdaBoostFastAuc, prtClassNaiveBayes, prtClassMap,...
+    prtClassKmsd, prtClassPlsda, prtClassKmeansPrototypes};
+Classifier = {'Knn', 'Svm', 'RF', 'Glrt', 'Fld', 'Dlrt', 'AdaBoost',...
+    'NBayes', 'MaP', 'Kmsd', 'Plsda', 'Kmeans'};
+Accuracy = zeros(12, 1);
+False_Alarms = zeros(12, 1);
+Missed_Fires = zeros(12, 1);
+Run_Time = zeros(12, 1);
+
+for i=1:in
+    [percentcorrect, falsealarm, missedfires, time2run] = Classifiers(dsPca, Names);
+    falsealarm = falsealarm.*100;
+    missedfires = missedfires.*100;
+    Accuracy = percentcorrect + Accuracy;
+    False_Alarms = falsealarm + False_Alarms;
+    Missed_Fires = missedfires + Missed_Fires;
+    Run_Time = time2run + Run_Time;
+end
+
+Accuracy = Accuracy./in;
+False_Alarms = False_Alarms./in;
+Missed_Fires = Missed_Fires./in;
+Run_Time = Run_Time./in;
+Classifier = Classifier';
+
+T = table(Accuracy, False_Alarms, Missed_Fires, Run_Time);
+T.Properties.RowNames = Classifier;
+T.Properties.VariableUnits{'Accuracy'} = '%';
+T.Properties.VariableUnits{'False_Alarms'} = '%';
+T.Properties.VariableUnits{'Missed_Fires'} = '%';
+T.Properties.VariableUnits{'Run_Time'} = 's';
+
+
+

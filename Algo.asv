@@ -1,9 +1,58 @@
-function [percentcorrect, falsealarm, missedfires] = Classifiers()
+function [Algo(dsPca, knnClassifier)
 percentcorrect = [];
 falsealarm = [];
 missedfires = [];
 classifierNames = {};
 
+%% Load Files and Make Dataset
+filenames = {'fire_magnitudes.csv', 'ambient_magnitudes.csv'};
+targetvalues = [1 0];
+X = [];
+Y = [];
+
+%Concatanate all of the files together
+for i=1:length(filenames)
+    [feat, label] = LoadPRTData(filenames{i}, targetvalues(i));
+    
+    X = cat(1, X, feat);
+    Y = cat(1, Y, label);
+    
+end
+
+dataSet = prtDataSetClass(X, Y);
+
+%% Run Principal Component Analysis to Reduce Dimensions
+myPca = prtPreProcPca;
+prompt = 'How many principal components? \n';
+e = input(prompt);
+myPca.nComponents = e;
+
+% Train the PCA to learn the principal components of the data:
+myPca = myPca.train(dataSet);
+dsPca = myPca.run(dataSet);   %Run the PCA analysis on the data
+
+% plot the data.
+% figure(1)
+% clf
+% plot(dsPca);
+
+myLda = prtPreProcLda;
+myLda.nComponents = e;
+
+myLda = myLda.train(dataSet);
+dsLda = myLda.run(dataSet);
+
+%% Plot the Variance of PCA
+pcaVar = prtPreProcPca;
+pcaVar.nComponents = dataSet.nFeatures;
+pcaVar = pcaVar.train(dataSet);
+
+figure(2)
+clf
+stem(pcaVar.totalPercentVarianceCumulative,'linewidth',3);
+xlabel('#Components');
+ylabel('Percent Variance Explained');
+title('PCA Percent Variance Explained')
 
 %% K-nearest neighbors classifier
 knnClassifier = prtClassKnn + prtDecisionBinaryMinPe;
