@@ -43,19 +43,24 @@ xlabel('#Components');
 ylabel('Percent Variance Explained');
 title('PCA Percent Variance Explained')
 
+%% Run the Classifiers x amount of times
 prompt = 'How many times to run? \n';
 in = input(prompt);
 
+%Set cell arrays
 Names = {prtClassKnn, prtClassLibSvm, prtClassTreeBaggingCap, prtClassGlrt, prtClassFld,...
     prtClassDlrt, prtClassAdaBoostFastAuc, prtClassNaiveBayes, prtClassMap,...
     prtClassKmsd, prtClassPlsda, prtClassKmeansPrototypes};
 Classifier = {'Knn', 'Svm', 'RF', 'Glrt', 'Fld', 'Dlrt', 'AdaBoost',...
     'NBayes', 'MaP', 'Kmsd', 'Plsda', 'Kmeans'};
+
+%Initialize variables
 Accuracy = zeros(12, 1);
 False_Alarms = zeros(12, 1);
 Missed_Fires = zeros(12, 1);
 Run_Time = zeros(12, 1);
 
+%Iterate through and collect evaluation data
 for i=1:in
     [percentcorrect, falsealarm, missedfires, time2run] = Classifiers(dsPca, Names);
     falsealarm = falsealarm.*100;
@@ -66,12 +71,14 @@ for i=1:in
     Run_Time = time2run + Run_Time;
 end
 
+%Average data
 Accuracy = Accuracy./in;
 False_Alarms = False_Alarms./in;
 Missed_Fires = Missed_Fires./in;
 Run_Time = Run_Time./in;
 Classifier = Classifier';
 
+%Plot data in a table
 T = table(Accuracy, False_Alarms, Missed_Fires, Run_Time);
 T.Properties.RowNames = Classifier;
 T.Properties.VariableUnits{'Accuracy'} = '%';
