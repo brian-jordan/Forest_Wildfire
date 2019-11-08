@@ -39,7 +39,7 @@ pcaVar = pcaVar.train(dataSet);
 figure(2)
 clf
 stem(pcaVar.totalPercentVarianceCumulative,'linewidth',3);
-xlabel('#Components');
+xlabel('#Component;ls');
 ylabel('Percent Variance Explained');
 title('PCA Percent Variance Explained')
 
