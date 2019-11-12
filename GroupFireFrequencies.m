@@ -1,8 +1,11 @@
 %% Fire Noise Data Compression
-% Get file to compress
-csvDirFile = 'CSV_Fire_Files/*.csv'; %'CSV_Forest_Files/*.csv'];
-csvDir = 'CSV_Fire_Files/'; %'CSV_Forest_Files/'];
-csvWriteFileName = 'fire_magnitudes.csv'; % 'forrest_magnitudes.csv'];
+
+
+function output = GroupFireFrequencies()
+% Get files to compress
+csvDirFile = 'CSV_Fire_Files/*.csv';
+csvDir = 'CSV_Fire_Files/';
+output = 'fire_magnitudes.csv';
    
 files = dir(csvDirFile);
 
@@ -41,4 +44,5 @@ for fileIter = 1 : length(files)
     
     condensedValueMatrix = [condensedValueMatrix windowAverage'];
 end
-csvwrite(csvWriteFileName, condensedValueMatrix);
+csvwrite(output, condensedValueMatrix);
+end

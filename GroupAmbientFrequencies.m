@@ -1,8 +1,9 @@
 %% Ambient Noise Data Compression
 % Get file to compress
+function output = GroupAmbientFrequencies()
 csvDirFile = 'CSV_Forest_Files/*.csv';
 csvDir = 'CSV_Forest_Files/';
-csvWriteFileName = 'ambient_magnitudes.csv';
+output = 'ambient_magnitudes.csv';
    
 files = dir(csvDirFile);
 
@@ -41,4 +42,5 @@ for fileIter = 1 : length(files)
     
     condensedValueMatrix = [condensedValueMatrix windowAverage'];
 end
-csvwrite(csvWriteFileName, condensedValueMatrix);
+csvwrite(output, condensedValueMatrix);
+end
