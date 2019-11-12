@@ -1,5 +1,5 @@
 function ret = audioSignalAnalyze(audioFile)
-%audioSignalAnalyze takes in an audio input, splits it into ten second
+%audioSignalAnalyze takes in an audio input, splits it into five second
 %intervals and saves the Fourier transforms as .CSV files
 %Takes in an audio file (mp3 or m4a) as an input
 
@@ -7,9 +7,9 @@ function ret = audioSignalAnalyze(audioFile)
 y = y(:);
 name = audioFile;
 fileNameLength = length(name);
-csvDir = 'CSV_Forest_Files/';
+csvDir = 'CSV_Forest_Extra/';
 
-lowerHzLimit = 0;
+lowerHzLimit = 0; %These variables specify the window of frequencies we look at
 upperHzLimit = 200;
 
 %Number of full 10 second clips that can be acquired from the signal
