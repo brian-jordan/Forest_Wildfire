@@ -1,7 +1,6 @@
 %% Fire Noise Data Compression
 
-
-function output = GroupFireFrequencies()
+function output = GroupFireFrequencies(input)
 % Get files to compress
 csvDirFile = 'CSV_Fire_Files/*.csv';
 csvDir = 'CSV_Fire_Files/';
@@ -10,9 +9,9 @@ output = 'fire_magnitudes.csv';
 files = dir(csvDirFile);
 
 maxFrequency = 200;
-groupingSize = 5;
+input = 5;
 
-frequencyRange = (groupingSize: groupingSize : maxFrequency)';
+frequencyRange = (input: input : maxFrequency)';
 condensedValueMatrix = frequencyRange;
 
 for fileIter = 1 : length(files)
