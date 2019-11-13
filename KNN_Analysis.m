@@ -7,10 +7,6 @@ csvAmbientLabels= 'ambient_labels.csv';
 fireLabels = csvread(csvFireLabels);
 ambientLabels = csvread(csvAmbientLabels);
 
-% Given
-trueValues = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0];
-predictedValues = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-
 % Counts
 truePositive = 0;
 falsePositive = 0;
