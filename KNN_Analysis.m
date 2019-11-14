@@ -1,6 +1,8 @@
 %% Confusion Matrix
 %% Input: Npredicted binary labels and Ntrue binary labels; Output: a 2×2 confusion matrix.
 
+function [trueNegative, falsePositive, falseNegative, truePositive] = KNN_Analysis(binSize)
+
 csvFireLabels = 'fire_labels.csv';
 csvAmbientLabels= 'ambient_labels.csv';
 
@@ -31,7 +33,14 @@ end
 
 % Outputs confustion matrix
     
-fprintf('True Negative     False Positive\nFalse Negative     True Positive\n');
-ConfusionMatrix = [trueNegative, falsePositive; falseNegative, truePositive]
+% fprintf('True Negative     False Positive\nFalse Negative     True Positive\n');
+ConfusionMatrix = [trueNegative, falsePositive; falseNegative, truePositive];
 
-bar([trueNegative, falsePositive, falseNegative, truePositive])
+% Plot Results
+labels= {'True Negative','False Positive','False Negative','True Positive'};
+data = [trueNegative, falsePositive, falseNegative, truePositive];
+% bar(data);
+% title('Analysis of LDA Model for Determining Fire Presence');
+% ylabel('Number of Audio Signals Classified');
+% set(gca,'xticklabel',labels);
+end

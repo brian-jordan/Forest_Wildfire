@@ -1,5 +1,5 @@
 %% Frequency KNN
-
+function output = frequency_KNN()
 %% Read CSV Files
 % Get fire frequency data
 csvFireTrained = 'fire_trained.csv';
@@ -67,3 +67,5 @@ csvAmbientLabels = 'ambient_labels.csv';
 
 csvwrite(csvFireLabels, fireLabels);
 csvwrite(csvAmbientLabels, ambientLabels);
+output = 1;
+end

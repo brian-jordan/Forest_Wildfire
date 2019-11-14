@@ -5,6 +5,7 @@
 % Rows will indicate different frequency level, columns will indicate
 % normalized magnitudes at the specific frequency for audio clips
 
+function output = frequencyClustering()
 % Get fire frequency data
 csvFireFile = 'fire_magnitudes.csv';
 csvFireTrainedFile = 'fire_trained.csv';
@@ -44,4 +45,6 @@ end
 ambientResultMatrix = [frequencies, ambientMagnitudeAverages];
 
 csvwrite(csvAmbientTrainedFile, ambientResultMatrix);
+output = 1;
+end
     

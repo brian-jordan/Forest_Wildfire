@@ -1,16 +1,14 @@
 %% Test Audio File Data Compression
 
 function output = Group_Frequencies(csvDir, binSize, csvResult)
-% Get files to compress
-% csvDirFile = 'CSV_Fire_Files/*.csv';
-% csvDir = 'CSV_Fire_Files/';
+
 csvDirFile = [csvDir '*.csv'];
 output = csvResult;
    
 files = dir(csvDirFile);
 
 maxFrequency = 200;
-binSize = 5;
+
 
 frequencyRange = (binSize: binSize : maxFrequency)';
 condensedValueMatrix = frequencyRange;
@@ -29,6 +27,9 @@ for fileIter = 1 : length(files)
     count = 0;
 
     for i = 1 : length(frequency)
+        if currentFrequencyIndex > length(frequencyRange)
+            break
+        end
         if (frequency(i) <= frequencyRange(currentFrequencyIndex))
             sum = sum + magnitude(i);
             count = count + 1;
@@ -40,9 +41,15 @@ for fileIter = 1 : length(files)
         end
     end
     
-    windowAverage = [windowAverage (sum / count)];
+    if length(frequencyRange) > length(windowAverage)
+        windowAverage = [windowAverage (sum / count)];
+    end
+    
+    % windowAverage = [windowAverage (sum / count)];
+    length(condensedValueMatrix);
+    length(windowAverage);
     
     condensedValueMatrix = [condensedValueMatrix windowAverage'];
 end
 csvwrite(csvResult, condensedValueMatrix);
-end
+% end
