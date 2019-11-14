@@ -33,12 +33,12 @@ frequencyClustering();
 % Uses fire_trained.csv, ambient_trained.csv to classify frequency samples
 % from fire_magnitudes.csv and ambient_magnitudes.csv to create
 % fire_labels.csv and ambient_labels.csv
-frequency_KNN();
+frequency_KMeans();
 
 % Uses fire_labels.csv and ambient_labels.csv to assess the accuracy of the
 % classifications
 % output = [trueNegative, falsePositive, falseNegative, truePositive]
-[trueNegative, falsePositive, falseNegative, truePositive] = KNN_Analysis(binSize);
+[trueNegative, falsePositive, falseNegative, truePositive] = KMeans_Analysis(binSize);
 
 tpr = (truePositive / (truePositive + falseNegative));
 fpr = (falsePositive /(trueNegative + falsePositive));
