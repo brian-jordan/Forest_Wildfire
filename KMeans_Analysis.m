@@ -39,8 +39,8 @@ ConfusionMatrix = [trueNegative, falsePositive; falseNegative, truePositive];
 % Plot Results
 labels= {'True Negative','False Positive','False Negative','True Positive'};
 data = [trueNegative, falsePositive, falseNegative, truePositive];
-% bar(data);
-% title('Analysis of LDA Model for Determining Fire Presence');
-% ylabel('Number of Audio Signals Classified');
-% set(gca,'xticklabel',labels);
+bar(data);
+title('Analysis of K-Means Model for Determining Fire Presence');
+ylabel('Number of Audio Signals Classified');
+set(gca,'xticklabel',labels);
 end

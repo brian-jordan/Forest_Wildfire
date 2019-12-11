@@ -9,21 +9,26 @@ csvAmbientResult = 'ambient_magnitudes.csv';
 csvFireFrequencyDir = 'CSV_Fire_Frequencies/';
 csvAmbientFrequencyDir = 'CSV_Ambient_Frequencies/';
 
-X = [];
-Y = [];
-Z = [];
+truePositiveRates = [];
+falsePositiveRates = [];
+falseNegatives = [];
+falsePositives = [];
 
 for binSize = 1 : 50
 
-% binSize = 5;
+% binSize = 19;
 
 % Uses CSV Frequency File Directory to create fire_magnitudes.csv and
 % ambient_magnitudes.csv
-csvFireFile = ['fire_magnitudes_' num2str(binSize) '.csv'];
-csvFireResult = [csvFireFrequencyDir csvFireFile];
+
+
+% For Setting Matrix files for different bin sizes
+% csvFireFile = ['fire_magnitudes_' num2str(binSize) '.csv'];
+% csvAmbientFile = ['ambient_magnitudes_' num2str(binSize) '.csv'];
+% csvFireResult = [csvFireFrequencyDir csvFireFile];
+% csvAmbientResult = [csvAmbientFrequencyDir csvAmbientFile];
+
 Group_Frequencies(csvFireDir, binSize, csvFireResult);
-csvAmbientFile = ['ambient_magnitudes_' num2str(binSize) '.csv'];
-csvAmbientResult = [csvAmbientFrequencyDir csvAmbientFile];
 Group_Frequencies(csvAmbientDir, binSize, csvAmbientResult);
 
 % Uses fire_magnitudes.csv and ambient_magnitudes.csv to create
@@ -43,13 +48,33 @@ frequency_KMeans();
 tpr = (truePositive / (truePositive + falseNegative));
 fpr = (falsePositive /(trueNegative + falsePositive));
 
-X = [X, fpr];
+% False Positive Rate
+falsePositiveRates = [falsePositiveRates, fpr];
 % True Positive Rate
-Y = [Y, tpr];
-Z = [Z, falseNegative];
+truePositiveRates = [truePositiveRates, tpr];
+% False Negative Value
+falseNegatives = [falseNegatives, falseNegative];
+% True Negative Value
+falsePositives = [falsePositives, falsePositive];end
+minFN = min(falseNegatives);
+possibleMinFP = [];
+possibleMinFPIndex = [];
+
+for iter = 1 : 50
+    if falseNegatives(iter) == minFN
+        possibleMinFP = [possibleMinFP, falsePositives(iter)];
+        possibleMinFPIndex = [possibleMinFPIndex, iter];
+    end
 end
+[minFP, minFPIndex] = min(possibleMinFP);
+
+totalMinIndex = possibleMinFPIndex(minFPIndex)
+
+% totalNegatives = falseNegatives + falsePositives;
+% [minVal, index] = min(totalNegatives)
+
 figure(1);
-plot(X,Y)
+plot(falsePositiveRates, truePositiveRates)
 hold on
 hline = refline(1, 0);
 hline.Color = 'k';
@@ -58,9 +83,18 @@ xlabel('False Positive Rate');
 ylabel('True Positive Rate');
 title('ROC Curve');
 
-binSize = 1 : 50;
+binSizes = 1 : 50;
 figure(2);
-plot(binSize, Z);
+plot(binSizes, falseNegatives);
+title('False Classifications Results for Varying Bin Size');
+xlabel('Frequency Bin Size (Hz)');
+ylabel('Number of Classifications');
+hold on
 
+plot(binSizes, falsePositives);
+hold on
 
-
+lineX = totalMinIndex;
+lineY = 0 : max(falsePositives);
+line([totalMinIndex, totalMinIndex], [0, 70], 'Color','black','LineStyle','--');
+legend('False Negatives', 'False Positives', 'Minimum Error Binsize');
