@@ -6,10 +6,12 @@ missedfires = zeros(length(classifierNames), 1);
 time2run = zeros(length(classifierNames), 1);
 
 
-%% K-nearest neighbors classifier
+%% Classifier
 for i=1:length(classifierNames)
     tic;
-    Classifier = classifierNames{i} + prtDecisionBinaryMinPe;
+    dec = prtDecisionBinarySpecifiedPd;
+    dec.pd = 0.999;
+    Classifier = classifierNames{i} + dec;
     yOutDecision = kfolds(Classifier, dsPca, 10);
     
     [a, b] = prtScoreConfusionMatrix(yOutDecision);
