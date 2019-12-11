@@ -1,8 +1,8 @@
 %% Test Audio File
 
-testAudioFile = 'audio_test.m4a';
-csvWriteDir = 'CSV_Test_Files/';
-csvResult = 'test_magnitudes.csv';
+testAudioFile = 'Fire.m4a';
+csvWriteDir = 'CSV_Fire_Test_Files/';
+csvResult = 'fire_test_magnitudes.csv';
 binSize = 5;
 
 % Create Frequency CSV Files for Test Audio File
